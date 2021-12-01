@@ -2,22 +2,44 @@ defmodule TwentyTwentyOne.AocTest do
   use ExUnit.Case
   alias TwentyTwentyOne.Aoc
 
-  @test_pulses "1\n2\n3\n2"
+  @test_pulses """
+  199
+  200
+  208
+  210
+  200
+  207
+  240
+  269
+  260
+  263
+  """
 
-  test "parse_pulses/1" do
-    expected = [{1, nil}, {2, 1}, {3, 1}, {2, -1}]
-    got = Aoc.parse_pulses(@test_pulses)
+  test "parse_pulses/2" do
+    expected = [
+      {199, nil},
+      {200, nil},
+      {208, 607},
+      {210, 618},
+      {200, 618},
+      {207, 617},
+      {240, 647},
+      {269, 716},
+      {260, 769},
+      {263, 792}
+    ]
+    got = Aoc.parse_pulses(@test_pulses, 3)
     assert expected == got
   end
 
-  test "count_pulse_increases/1" do
-    expected = 2
+  test "count_pulse_increases/2" do
+    expected = 5
 
-    got =
-      @test_pulses
-      |> Aoc.parse_pulses()
-      |> Aoc.count_pulse_increases()
+    got = Aoc.count_pulse_increases(@test_pulses, 3)
 
     assert expected == got
+  end
+
+  test "count_pulse_increases/2" do
   end
 end
