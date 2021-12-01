@@ -15,7 +15,7 @@ defmodule TwentyTwentyOne.Aoc do
     |> Enum.reverse()
   end
 
-  defp compare_last([], _), do: 0
+  defp compare_last([], _), do: nil
   defp compare_last([last | _], current), do: current - elem(last, 0)
 
   defp parse_pulse(pulse) do
@@ -28,6 +28,8 @@ defmodule TwentyTwentyOne.Aoc do
   Count the amount of pulses that have a positive increase
   """
   def count_pulse_increases(pulses) do
-    Enum.count(pulses, fn {_, p} -> p > 0 end)
+    pulses
+    |> Enum.reject(fn {_, p} -> p == nil end)
+    |> Enum.count(fn {_, p} -> p > 0 end)
   end
 end

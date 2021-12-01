@@ -5,7 +5,7 @@ defmodule TwentyTwentyOne.AocTest do
   @test_pulses "1\n2\n3\n2"
 
   test "parse_pulses/1" do
-    expected = [{1, 0}, {2, 1}, {3, 1}, {2, -1}]
+    expected = [{1, nil}, {2, 1}, {3, 1}, {2, -1}]
     got = Aoc.parse_pulses(@test_pulses)
     assert expected == got
   end
