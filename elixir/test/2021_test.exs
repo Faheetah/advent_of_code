@@ -52,4 +52,8 @@ defmodule TwentyTwentyOne.AocTest do
   test "move/1" do
     assert Aoc.move(@movements) == 150
   end
+
+  test "move_with_aim/1" do
+    assert Aoc.move_with_aim(@movements) == 900
+  end
 end

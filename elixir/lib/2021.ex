@@ -60,4 +60,19 @@ defmodule TwentyTwentyOne.Aoc do
     |> Enum.map(fn {k, v} -> {k, Enum.reduce(v, 0, fn [x], acc -> acc + x end)} end)
     totals[:forward] * abs(totals[:down] - totals[:up])
   end
+
+  def move_with_aim(movements) do
+    movements
+    |> String.splitter("\n")
+    |> Stream.reject(&(&1 == ""))
+    |> Stream.map(&String.split/1)
+    |> Stream.map(fn [k, v] -> {String.to_atom(k), elem(Integer.parse(v), 0)} end)
+    |> Enum.reduce({0, 0, 0}, &do_move/2)
+    |> then(fn {a, b, _} -> a * b end)
+  end
+
+  def do_move({:forward, amount}, {pos, depth, 0}), do: {pos + amount, depth, 0}
+  def do_move({:forward, amount}, {pos, depth, aim}), do: {pos + amount, depth + amount * aim, aim}
+  def do_move({:down, amount}, {pos, depth, aim}), do: {pos, depth, aim + amount}
+  def do_move({:up, amount}, {pos, depth, aim}), do: {pos, depth, aim - amount}
 end
