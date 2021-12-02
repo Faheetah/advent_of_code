@@ -40,6 +40,16 @@ defmodule TwentyTwentyOne.AocTest do
     assert expected == got
   end
 
-  test "count_pulse_increases/2" do
+  @movements """
+  forward 5
+  down 5
+  forward 8
+  up 3
+  down 8
+  forward 2
+  """
+
+  test "move/1" do
+    assert Aoc.move(@movements) == 150
   end
 end

@@ -49,4 +49,15 @@ defmodule TwentyTwentyOne.Aoc do
   defp compare_last_count(current, {count, nil}), do: {count, current}
   defp compare_last_count(current, {count, last}) when current <= last, do: {count, current}
   defp compare_last_count(current, {count, _}), do: {count + 1, current}
+
+  def move(movements) do
+    totals = movements
+    |> String.splitter("\n")
+    |> Stream.reject(&(&1 == ""))
+    |> Stream.map(&String.split/1)
+    |> Stream.map(fn [k, v] -> [String.to_atom(k), elem(Integer.parse(v), 0)] end)
+    |> Enum.group_by(&hd/1, &tl/1)
+    |> Enum.map(fn {k, v} -> {k, Enum.reduce(v, 0, fn [x], acc -> acc + x end)} end)
+    totals[:forward] * abs(totals[:down] - totals[:up])
+  end
 end
