@@ -75,4 +75,21 @@ defmodule TwentyTwentyOne.Aoc do
   def do_move({:forward, amount}, {pos, depth, aim}), do: {pos + amount, depth + amount * aim, aim}
   def do_move({:down, amount}, {pos, depth, aim}), do: {pos, depth, aim + amount}
   def do_move({:up, amount}, {pos, depth, aim}), do: {pos, depth, aim - amount}
+
+  # Day 3
+
+  def diagnostics(diags, width) do
+    diags
+    |> String.splitter("\n")
+    |> Stream.reject(&(&1 == ""))
+    |> Stream.map(&String.graphemes/1)
+    |> Enum.zip_reduce([], &List.insert_at(&2, 0, &1))
+    |> Stream.map(&Enum.frequencies/1)
+    |> Stream.map(fn m -> Enum.max_by(m, &elem(&1, 1)) end)
+    |> Stream.map(&elem(&1, 0))
+    |> Enum.reverse()
+    |> Enum.join()
+    |> String.to_integer(2)
+    |> then(& &1 * Bitwise.bxor(&1, Integer.pow(2, width) - 1))
+  end
 end
