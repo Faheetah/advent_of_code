@@ -92,4 +92,36 @@ defmodule TwentyTwentyOne.Aoc do
     |> String.to_integer(2)
     |> then(& &1 * Bitwise.bxor(&1, Integer.pow(2, width) - 1))
   end
+
+  def life_support(input) do
+    diags =
+      input
+      |> String.splitter("\n")
+      |> Stream.reject(&(&1 == ""))
+      |> Enum.map(&String.graphemes/1)
+
+    oxygen =
+      do_life_support(diags, "1", &Enum.max_by/2)
+      |> Enum.join()
+      |> String.to_integer(2)
+
+    scrubber =
+      do_life_support(diags, "0", &Enum.min_by/2)
+      |> Enum.join()
+      |> String.to_integer(2)
+
+    oxygen * scrubber
+  end
+
+  def do_life_support([[]], _, _), do: []
+  def do_life_support([["0"], ["1" | _]], fallback, _), do: [fallback]
+  def do_life_support([["1"], ["0" | _]], fallback, _), do: [fallback]
+  def do_life_support(diags, fallback, fun) do
+    Enum.reduce(diags, [], fn [bit | rest], acc ->
+      [{bit, rest} | acc]
+    end)
+    |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
+    |> fun.(fn {_, x} -> length(x) end)
+    |> then(fn {n, d} -> [n | do_life_support(d, fallback, fun)] end)
+  end
 end

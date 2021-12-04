@@ -75,4 +75,8 @@ defmodule TwentyTwentyOne.AocTest do
   test "diagnostics/2" do
     assert Aoc.diagnostics(@diagnostics, 5) == 198
   end
+
+  test "life_support/1" do
+    assert Aoc.life_support(@diagnostics) == 230
+  end
 end
